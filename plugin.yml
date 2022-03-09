@@ -1,0 +1,9 @@
+main: me.prxluckperms.PRXLuckPerms
+version: 1.0
+author: SandwichaKSA
+name: PRXLuckPerms
+depend: [PrisonRanksX, LuckPerms]
+commands:
+  prxluckperms:
+    usage: /<command>
+    aliases: [prxlp]

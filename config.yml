@@ -1,0 +1,8 @@
+# track: "TrackNameHere"
+# If empty, no track will be used.
+track: ""
+# True: changes player LuckPerms group to a certain group when a prestige is passed
+reset-player-group-on-prestige: true
+# Which group should player rank be set to after a successful prestige.
+# If empty, resets to PrisonRanksX default rank set in the config.
+reset-player-group-name: ""
