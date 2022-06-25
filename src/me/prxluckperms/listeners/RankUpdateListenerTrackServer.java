@@ -13,29 +13,31 @@ import me.prisonranksx.events.RankUpdateEvent;
 import me.prxluckperms.EZLuckPerms;
 import me.prxluckperms.PRXLuckPerms;
 
-public class RankUpdateListenerTrack implements IRankUpdateListener {
+public class RankUpdateListenerTrackServer implements IRankUpdateListener {
 
 	private String trackName;
 	private PRXLuckPerms plugin;
+	private String serverName;
 
 	/**
 	 * Initiate the listener and register it to the plugin.
 	 * 
 	 * @param plugin the plugin to register the listener to.
 	 */
-	public RankUpdateListenerTrack(PRXLuckPerms plugin) {
+	public RankUpdateListenerTrackServer(PRXLuckPerms plugin) {
 		this.plugin = plugin;
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.trackName = this.plugin.getTrackName();
+		this.serverName = this.plugin.getServerName();
 	}
 
 	@EventHandler
 	public void onRankRegister(AsyncRankRegisterEvent e) {
 		if (e.isCancelled()) return;
 		UUID uuid = e.getUniqueId();
-		EZLuckPerms.deletePlayerGroups(uuid, trackName).thenRunAsync(() -> {
+		EZLuckPerms.deletePlayerServerGroups(uuid, trackName, serverName).thenRunAsync(() -> {
 			CompletableFuture.supplyAsync(() -> e.getRankPath().getRankName()).thenAcceptAsync(rankup -> {
-				EZLuckPerms.setPlayerGroup(uuid, EZLuckPerms.getGroup(rankup), trackName);
+				EZLuckPerms.setPlayerServerGroup(uuid, EZLuckPerms.getGroup(rankup), trackName, serverName);
 			});
 		});
 	}
@@ -46,9 +48,9 @@ public class RankUpdateListenerTrack implements IRankUpdateListener {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();
 		UUID uuid = p.getUniqueId();
-		EZLuckPerms.deletePlayerGroups(uuid, trackName).thenRunAsync(() -> {
+		EZLuckPerms.deletePlayerServerGroups(uuid, trackName, serverName).thenRunAsync(() -> {
 			CompletableFuture.supplyAsync(() -> e.getRankup()).thenAcceptAsync(rankup -> {
-				EZLuckPerms.setPlayerGroup(uuid, EZLuckPerms.getGroup(rankup), trackName);
+				EZLuckPerms.setPlayerServerGroup(uuid, EZLuckPerms.getGroup(rankup), trackName, serverName);
 			});
 		});
 	}
@@ -59,8 +61,9 @@ public class RankUpdateListenerTrack implements IRankUpdateListener {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();
 		UUID uuid = p.getUniqueId();
-		EZLuckPerms.deletePlayerGroups(uuid, trackName)
-				.thenRunAsync(() -> EZLuckPerms.setPlayerGroup(uuid, EZLuckPerms.getGroup(e.getRankupTo()), trackName));
+		EZLuckPerms.deletePlayerServerGroups(uuid, trackName, serverName)
+				.thenRunAsync(() -> EZLuckPerms.setPlayerServerGroup(uuid, EZLuckPerms.getGroup(e.getRankupTo()),
+						trackName, serverName));
 	}
 
 	@Override
@@ -70,9 +73,9 @@ public class RankUpdateListenerTrack implements IRankUpdateListener {
 		Player p = e.getPlayer();
 		UUID uuid = p.getUniqueId();
 		plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-			EZLuckPerms.deletePlayerGroups(uuid, trackName)
-					.thenRunAsync(() -> EZLuckPerms.setPlayerGroup(uuid, EZLuckPerms.getGroup(e.getFinalRankup()),
-							trackName));
+			EZLuckPerms.deletePlayerServerGroups(uuid, trackName, serverName)
+					.thenRunAsync(() -> EZLuckPerms.setPlayerServerGroup(uuid, EZLuckPerms.getGroup(e.getFinalRankup()),
+							trackName, serverName));
 		}, 1);
 	}
 

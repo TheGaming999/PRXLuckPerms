@@ -1,5 +1,5 @@
 main: me.prxluckperms.PRXLuckPerms
-version: 1.0
+version: 1.1
 author: SandwichaKSA
 name: PRXLuckPerms
 depend: [PrisonRanksX, LuckPerms]

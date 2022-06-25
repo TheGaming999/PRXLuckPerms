@@ -1,6 +1,9 @@
 # track: "TrackNameHere"
 # If empty, no track will be used.
 track: ""
+# server: "ServerNameInYourNetwork"
+# If empty, group won't be granted on a specfic server in your bungeecord network.
+server: ""
 # True: changes player LuckPerms group to a certain group when a prestige is passed
 reset-player-group-on-prestige: true
 # Which group should player rank be set to after a successful prestige.

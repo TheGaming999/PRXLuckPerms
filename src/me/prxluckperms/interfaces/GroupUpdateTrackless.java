@@ -2,24 +2,27 @@ package me.prxluckperms.interfaces;
 
 import java.util.UUID;
 
-import me.prxluckperms.EasyLuckPerms;
+import me.prxluckperms.EZLuckPerms;
 import me.prxluckperms.PRXLuckPerms;
 
 public class GroupUpdateTrackless implements IGroupUpdate {
 
 	private PRXLuckPerms plugin;
-	private EasyLuckPerms ezLuckPerms;
-	private String defaultRank;
-	
+	private String groupName;
+	private String serverName;
+
 	public GroupUpdateTrackless(PRXLuckPerms plugin) {
 		this.plugin = plugin;
-		this.ezLuckPerms = this.plugin.getEzLuckPerms();
-		this.defaultRank = this.plugin.getAPI().getDefaultRank();
+		this.groupName = this.plugin.getResetPlayerGroupName();
+		this.serverName = this.plugin.getServerName();
 	}
-	
+
 	@Override
 	public void set(UUID uuid) {
-		ezLuckPerms.setPlayerGroup(uuid, ezLuckPerms.getGroup(defaultRank));
+		if (serverName != null)
+			EZLuckPerms.setPlayerServerGroup(uuid, EZLuckPerms.getGroup(groupName), serverName);
+		else
+			EZLuckPerms.setPlayerGroup(uuid, EZLuckPerms.getGroup(groupName));
 	}
 
 }
